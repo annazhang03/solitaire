@@ -36,24 +36,44 @@ class Card:
     def get_value(self, suit_val):
       return self.val+suit_val
 
-deck = []
-key = getKey(key_type, key_inp)
-#print(key)
-numCards = len(key)
-for i in range(numCards):
-    deck.append(Card(key[i]))
-    
+deck = getKey(key_type, key_inp)
+
 keystream = []
 
-''' KEYSTREAM ALGORITHM:
+def get_keystream_val(deck):
+    done = False
+    while not done:
+        # move card 53 down by one place
+        pos1 = deck.index(53)
+        if pos1 != 53:
+            pos2 = pos1 + 1
+        else:
+            pos2 = 1 # last card becomes second card
+        deck[pos1], deck[pos2] = deck[pos2], deck[pos1]
+
+        # move card 54 down by two places
+        pos1 = deck.index(54)
+        if pos1 != 52:
+            pos2 = (pos1 + 2) % 54
+        else:
+            pos2 = 2 # last card becomes third card
+        deck[pos1], deck[pos2] = deck[pos2], deck[pos1]
+
+        # triple cut
+
+        # count cut
+
+        # return keystream value
+        topcard = deck[0]
+        if topcard == 54:
+            topcard = 53
+        if deck[topcard] != 53 and deck[topcard] != 54:
+            keystream_val = topcard
+            done = True
+    return keystream_val
+
 for i in range(len(text)):
-    move card 53 down by one place
-    move card 54 down by two places
-    triple cut
-    count cut
-    get keystream value
-    keystream.append(value)
-'''
+    keystream.append(get_keystream_val(deck))
 
 nums = []
 for i in range(len(text)):
