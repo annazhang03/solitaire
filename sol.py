@@ -19,7 +19,7 @@ def getKey(key_type, key_inp):
     elif key_type == 'w':
         print() # PLACEHOLDER -- CHANGE THIS
     else:
-        print('no') # change this lol
+        print('Invalid input. Please try again with a valid input.') # change this lol
         sys.exit()
     return key
 
