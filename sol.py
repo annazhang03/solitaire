@@ -23,7 +23,6 @@ def makeAlpha(text):
         if i.isalpha():
             result += i
     return result
-text = makeAlpha(text)
 
 # take initial ordering in the form of a file, a string, or a keyword and turn into [1,2,3,...]
 def getKey(key_type, key_inp):
@@ -34,12 +33,26 @@ def getKey(key_type, key_inp):
     elif key_type == 'o':
         key = key_inp.split()
         key = [int(i) for i in key]
-    #elif key_type == 'w':
-        #print() # PLACEHOLDER -- CHANGE THIS
+    elif key_type == 'w':
+        key = makeAlpha(key_inp).upper()
+        key = keywordToKey(key)
     else:
         print('Invalid input. Please try again with a valid input.')
         sys.exit()
     return key
+
+def keywordToKey(keyword):
+    deck = [i for i in range(1,55)]
+    nums = toNum(keyword)
+    for i in range(len(keyword)):
+        deck = get_keystream_val(deck)[1]
+        # another count cut, using i-th character of key as bottom card
+        val_last = nums[i]
+        first_sec = deck[0:val_last]
+        second_sec = deck[val_last:-1]
+        last_num = deck[-1]
+        deck = second_sec + first_sec + [last_num]
+    return deck
 
 # ABC ---> [1,2,3]
 def toNum(text):
@@ -57,10 +70,6 @@ def toAlpha(num):
         result += chr(i + 64)
     return result
 
-#create the deck based on the key
-deck = getKey(key_type, key_inp)
-keystream = []
-
 def get_keystream_val(deck):
     done = False
     while not done:
@@ -75,12 +84,17 @@ def get_keystream_val(deck):
         # move card 54 down by two places
         pos1 = deck.index(54)
         if pos1 < 52:
-            pos2 = pos1 + 2
+            pos2 = pos1 + 1
+            pos3 = pos1 + 2
+            deck[pos1], deck[pos2], deck[pos3] = deck[pos2], deck[pos3], deck[pos1]
         elif pos1 == 52:
-            pos2 = 1 # second to last card becomes second card
+            middle_sec = deck[1:52]
+            deck = [deck[0]] + [54] + middle_sec + [deck[-1]]
+            # second to last card becomes second card
         else:
-            pos2 = 2 # last card becomes third card
-        deck[pos1], deck[pos2] = deck[pos2], deck[pos1]
+            middle_sec = deck[2:53]
+            deck = deck[0:2] + [54] + middle_sec
+            # last card becomes third card
 
         # triple cut
         # find first joker + everything above it, second joker + everything below it
@@ -94,9 +108,9 @@ def get_keystream_val(deck):
 
         # count cut
         val_last = deck[-1]
-        #if either joker, value is 27
-        if val_last == 54 or val_last == 53:
-            val_last = 27
+        #if either joker, value is 53
+        if val_last == 54:
+            val_last = 53
         first_sec = deck[0:val_last]
         second_sec = deck[val_last:-1]
         last_num = deck[-1]
@@ -104,12 +118,18 @@ def get_keystream_val(deck):
 
         # return keystream value
         topcard = deck[0]
-        if topcard == 54 or topcard == 53:
-            topcard = 27
+        if topcard == 54:
+            topcard = 53
         if deck[topcard] != 53 and deck[topcard] != 54:
             keystream_val = deck[topcard]
             done = True
     return keystream_val, deck
+
+text = makeAlpha(text)
+
+#create the deck based on the key
+deck = getKey(key_type, key_inp)
+keystream = []
 
 for i in range(len(text)):
     keystream_val, deck = get_keystream_val(deck)
