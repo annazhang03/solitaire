@@ -22,5 +22,4 @@ for i in range(len(text)):
 #ENCRYPT:
 nums = [(sol.toNum(text)[i] + keystream[i]) % 26 for i in range(len(text))]
 
-
 print(sol.toAlpha(nums))
