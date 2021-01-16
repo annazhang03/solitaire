@@ -55,5 +55,5 @@ make decrypt [text] w [keyword]
 ```
 
  ## Citations
- https://www.schneier.com/academic/solitaire/
+ https://www.schneier.com/academic/solitaire/  
  https://en.wikipedia.org/wiki/Solitaire_(cipher)
