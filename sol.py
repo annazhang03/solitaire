@@ -1,6 +1,6 @@
 import sys
 
-if len(sys.argv) != 5:
+'''if len(sys.argv) != 5:
    print("Invalid input. Please try again with a valid input.")
    sys.exit()
 
@@ -8,13 +8,14 @@ if sys.argv[1] == 'encrypt':
     encrypt = True
 elif sys.argv[1] == 'decrypt':
     encrypt = False
-else: 
+else:
     print('Invalid input. Please try again with a valid input.')
     sys.exit()
 
 text = sys.argv[2].upper()
 key_type = sys.argv[3] # f for file, o for order, w for keyword
 key_inp = sys.argv[4]
+'''
 
 # get rid of nonalpha characters in text
 def makeAlpha(text):
@@ -37,7 +38,7 @@ def getKey(key_type, key_inp):
         key = makeAlpha(key_inp).upper()
         key = keywordToKey(key)
     else:
-        print('Invalid input. Please try again with a valid input.')
+        print('Invalid input. Please try again with a valid input. getKEY')
         sys.exit()
     return key
 
@@ -125,6 +126,7 @@ def get_keystream_val(deck):
             done = True
     return keystream_val, deck
 
+'''
 text = makeAlpha(text)
 
 #create the deck based on the key
@@ -139,5 +141,6 @@ if encrypt:
     nums = [(toNum(text)[i] + keystream[i]) % 26 for i in range(len(text))]
 else:
     nums = [(toNum(text)[i] - keystream[i]) % 26 for i in range(len(text))]
-    
+
 print(toAlpha(nums))
+'''
