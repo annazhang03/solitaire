@@ -1,8 +1,29 @@
 import sys
 
-text = sys.argv[1].upper()
-key_type = sys.argv[2] # f for file, o for order, w for keyword
-key_inp = sys.argv[3]
+if len(sys.argv) != 5:
+   print("Invalid input. Please try again with a valid input.")
+   sys.exit()
+
+if sys.argv[1] == 'encrypt':
+    encrypt = True
+elif sys.argv[1] == 'decrypt':
+    encrypt = False
+else: 
+    print('Invalid input. Please try again with a valid input.')
+    sys.exit()
+
+text = sys.argv[2].upper()
+key_type = sys.argv[3] # f for file, o for order, w for keyword
+key_inp = sys.argv[4]
+
+# get rid of nonalpha characters in text
+def makeAlpha(text):
+    result = ''
+    for i in text:
+        if i.isalpha():
+            result += i
+    return result
+text = makeAlpha(text)
 
 # take initial ordering in the form of a file, a string, or a keyword and turn into [1,2,3,...]
 def getKey(key_type, key_inp):
@@ -20,7 +41,7 @@ def getKey(key_type, key_inp):
         sys.exit()
     return key
 
-# ABC --> [1,2,3]
+# ABC ---> [1,2,3]
 def toNum(text):
     result = []
     for i in text:
@@ -74,7 +95,7 @@ def get_keystream_val(deck):
         # count cut
         val_last = deck[-1]
         #if either joker, value is 27
-        if val_last == 28:
+        if val_last == 54 or val_last == 53:
             val_last = 27
         first_sec = deck[0:val_last]
         second_sec = deck[val_last:-1]
@@ -94,6 +115,9 @@ for i in range(len(text)):
     keystream_val, deck = get_keystream_val(deck)
     keystream.append(keystream_val)
 
-nums = [(toNum(text)[i] + keystream[i]) % 26 for i in range(len(text))]
-
+if encrypt:
+    nums = [(toNum(text)[i] + keystream[i]) % 26 for i in range(len(text))]
+else:
+    nums = [(toNum(text)[i] - keystream[i]) % 26 for i in range(len(text))]
+    
 print(toAlpha(nums))
