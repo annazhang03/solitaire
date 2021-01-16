@@ -58,6 +58,15 @@ def get_keystream_val(deck):
         deck[pos1], deck[pos2] = deck[pos2], deck[pos1]
 
         # triple cut
+        # find first joker + everything above it, second joker + everything below it
+        # exchange last third and first third
+        pos1 = deck.index(53)
+        pos2 = deck.index(54)
+        if pos1 < pos2:
+            first_sec = deck[0:pos1]
+            middle_sec = deck[pos1:pos2+1]
+            last_sec = deck[pos2+1:]
+            deck = last_sec + middle_sec + first_sec
 
         # count cut
 
