@@ -69,6 +69,14 @@ def get_keystream_val(deck):
             deck = last_sec + middle_sec + first_sec
 
         # count cut
+        val_last = deck[-1]
+        #if either joker, value is 27
+        if val_last = 28:
+            val_last = 27
+        first_sec = deck[0:val_last]
+        second_sec = deck[val_last:-1]
+        last_num = deck[-1]
+        deck = second_sec + first_sec + last_num
 
         # return keystream value
         topcard = deck[0]
