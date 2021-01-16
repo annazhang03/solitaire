@@ -4,6 +4,14 @@
 ## Description
 This is our repo containing our Python implementation of the Solitaire cipher. This cipher is traditionally carried out through non-electronic means—the message is encrypted and decrypted using a deck of cards.
 
+Our cipher has two modes: encrypt and decrypt.
+
+Each mode has three separate key options: the first option is f (file), where the program will encrypt or decrypt based on a key provided in a file. The file must contain numbers from 1 to 54 separated by new lines. An example of a suitable file has been provided in the repo (key.txt).
+
+The next option is o (order), where an ordering is provided via a string of numbers 1-54 separated by whitespace. See encryption examples for an example of how to format this input.
+
+The third option is w (word), where the key used in the keystream is a plaintext word. See encryption examples for an example of how to format this input.
+
 ## Launch
 
 ### Encryption:
