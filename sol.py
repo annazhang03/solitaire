@@ -1,10 +1,7 @@
 import sys
 
-text = sys.argv[1]
-text = text.upper()
-
+text = sys.argv[1].upper()
 key_type = sys.argv[2] # f for file, o for order, w for keyword
-
 key_inp = sys.argv[3]
 
 # take initial ordering in the form of a file, a string, or a keyword and turn into [1,2,3,...]
@@ -16,8 +13,8 @@ def getKey(key_type, key_inp):
     elif key_type == 'o':
         key = key_inp.split()
         key = [int(i) for i in key]
-    elif key_type == 'w':
-        print() # PLACEHOLDER -- CHANGE THIS
+    #elif key_type == 'w':
+        #print() # PLACEHOLDER -- CHANGE THIS
     else:
         print('Invalid input. Please try again with a valid input.') # change this lol
         sys.exit()
@@ -30,14 +27,15 @@ def toNum(text):
         result.append(ord(i) - 64)
     return result
 
-class Card:
-    def __init__(self, value):
-        self.value = value
-    def get_value(self, suit_val):
-      return self.val+suit_val
+# [1,2,3] ---> ABC
+def toAlpha(num):
+    result = ''
+    for i in num:
+        result += chr(i + 64)
+    return result
 
+#create the deck based on the key
 deck = getKey(key_type, key_inp)
-
 keystream = []
 
 def get_keystream_val(deck):
@@ -79,10 +77,5 @@ nums = []
 for i in range(len(text)):
     nums.append((toNum(text)[i] + keystream[i]) % 26)
 
-def toAlpha(num):
-    result = ''
-    for i in num:
-        result += chr(i + 64)
-    return result
 
 print(toAlpha(nums))
