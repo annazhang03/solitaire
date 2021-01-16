@@ -83,8 +83,8 @@ def get_keystream_val(deck):
 
         # return keystream value
         topcard = deck[0]
-        if topcard == 54:
-            topcard = 53
+        if topcard == 54 or topcard == 53:
+            topcard = 27
         if deck[topcard] != 53 and deck[topcard] != 54:
             keystream_val = deck[topcard]
             done = True
