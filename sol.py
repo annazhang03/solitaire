@@ -16,7 +16,7 @@ def getKey(key_type, key_inp):
     #elif key_type == 'w':
         #print() # PLACEHOLDER -- CHANGE THIS
     else:
-        print('Invalid input. Please try again with a valid input.') # change this lol
+        print('Invalid input. Please try again with a valid input.')
         sys.exit()
     return key
 
@@ -31,6 +31,8 @@ def toNum(text):
 def toAlpha(num):
     result = ''
     for i in num:
+        if i == 0:
+            i = 26
         result += chr(i + 64)
     return result
 
@@ -51,8 +53,10 @@ def get_keystream_val(deck):
 
         # move card 54 down by two places
         pos1 = deck.index(54)
-        if pos1 != 52:
-            pos2 = (pos1 + 2) % 54
+        if pos1 < 52:
+            pos2 = pos1 + 2
+        elif pos1 == 52:
+            pos2 = 1 # second to last card becomes second card
         else:
             pos2 = 2 # last card becomes third card
         deck[pos1], deck[pos2] = deck[pos2], deck[pos1]
@@ -60,13 +64,12 @@ def get_keystream_val(deck):
         # triple cut
         # find first joker + everything above it, second joker + everything below it
         # exchange last third and first third
-        pos1 = deck.index(53)
-        pos2 = deck.index(54)
-        if pos1 < pos2:
-            first_sec = deck[0:pos1]
-            middle_sec = deck[pos1:pos2+1]
-            last_sec = deck[pos2+1:]
-            deck = last_sec + middle_sec + first_sec
+        pos1 = min(deck.index(53), deck.index(54))
+        pos2 = max(deck.index(54), deck.index(53))
+        first_sec = deck[0:pos1]
+        middle_sec = deck[pos1:pos2+1]
+        last_sec = deck[pos2+1:]
+        deck = last_sec + middle_sec + first_sec
 
         # count cut
         val_last = deck[-1]
@@ -76,23 +79,21 @@ def get_keystream_val(deck):
         first_sec = deck[0:val_last]
         second_sec = deck[val_last:-1]
         last_num = deck[-1]
-        deck = second_sec + first_sec + last_num
+        deck = second_sec + first_sec + [last_num]
 
         # return keystream value
         topcard = deck[0]
         if topcard == 54:
             topcard = 53
         if deck[topcard] != 53 and deck[topcard] != 54:
-            keystream_val = topcard
+            keystream_val = deck[topcard]
             done = True
-    return keystream_val
+    return keystream_val, deck
 
 for i in range(len(text)):
-    keystream.append(get_keystream_val(deck))
+    keystream_val, deck = get_keystream_val(deck)
+    keystream.append(keystream_val)
 
-nums = []
-for i in range(len(text)):
-    nums.append((toNum(text)[i] + keystream[i]) % 26)
-
+nums = [(toNum(text)[i] + keystream[i]) % 26 for i in range(len(text))]
 
 print(toAlpha(nums))
