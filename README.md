@@ -2,7 +2,7 @@
 #### by Grace Cantarella and Anna Zhang
 
 ## Description
-This is our repo containing our Python implementation of the Solitaire cipher. This cipher is traditionally carried out through non-electronic means—the message is encrypted and decrypted using a deck of cards.
+This is our repo containing our Python implementation of the Solitaire cipher. This cipher is traditionally carried out through non-electronic means—the message is encrypted and decrypted using a deck of 54 cards (13 cards in each suit and 2 jokers).
 
 Our cipher has two modes: encrypt and decrypt.
 
@@ -10,7 +10,7 @@ Each mode has three separate key options: the first option is f (file), where th
 
 The next option is o (order), where an ordering is provided via a string of numbers 1-54 separated by whitespace. See encryption examples for an example of how to format this input.
 
-The third option is w (word), where the key used in the keystream is a plaintext word. See encryption examples for an example of how to format this input.
+The third option is w (word), where the initial ordering is decided using a plaintext word. See encryption examples for an example of how to format this input.
 
 Each mode also comes with the option to use verbose mode (v) in order to see the process of producing the keystream. See examples on how to pass this flag as an argument.
 
