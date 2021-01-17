@@ -121,5 +121,6 @@ def get_keystream_val(deck, verbose):
             keystream_val = deck[topcard]
             done = True
     if verbose:
+        print("YOUR CURRENT KEYSTREAM VALUE IS: " + str(keystream_val))
         print()
     return keystream_val, deck

@@ -29,8 +29,7 @@ for i in range(len(text)):
 
 if verbose:
     print('DONE GENERATING KEYSTREAM! \n')
-    print('FINAL DECK USED FOR DECRYPTION:')
-    print(str(deck) + '\n')
+    print('YOUR KEYSTREAM IS: ' + str(keystream))
 
 #DECRYPT:
 nums = [(sol.toNum(text)[i] - keystream[i]) % 26 for i in range(len(text))]
