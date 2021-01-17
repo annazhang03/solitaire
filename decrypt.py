@@ -36,5 +36,6 @@ nums = [(sol.toNum(text)[i] - keystream[i]) % 26 for i in range(len(text))]
 
 if verbose:
     print('YOUR DECRYPTED MESSAGE IS: ' + sol.toAlpha(nums))
+    print()
 else:
     print(sol.toAlpha(nums))
